@@ -1,5 +1,28 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
 .gameBoard {
     display: grid;
     grid-template-columns: repeat(3, 100px);
     grid-template-rows: repeat(3, 100px);
+}
+
+.gameBoard p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: beige;
+    font-size: 8vw;
+    font-family: "Square Peg";
+
+    user-select: none;
+}
+
+.gameBoard p:hover {
+    cursor: pointer;
+
+    background-color: yellow;
 }

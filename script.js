@@ -4,7 +4,7 @@ const Gameboard = (() => {
         for (let i = 0; i < spaces.length; i++) {
             $(".gameBoard").append(`<p>${spaces[i]}</p>`);
         }
-    }
+    };
 
     return {
         spaces,
@@ -13,16 +13,9 @@ const Gameboard = (() => {
 })();
 
 var displayController = (() => {
-    const spaces = Gameboard.spaces;
-    var board = [];
-
-    for (const space in spaces) {
-        board.push
-    }
-
-    return {
-        board
-    }
+    $("p").click(function() {
+        alert("Clicked!");
+    });
 })();
 
 var Player = (role) => {
@@ -34,7 +27,6 @@ var Player = (role) => {
 var playerOne = Player('X');
 var playerTwo = Player('O');
 
-console.log(playerOne);
-console.log(playerTwo);
-
 Gameboard.render();
+
+console.log(displayController);
