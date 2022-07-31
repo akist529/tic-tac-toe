@@ -1,21 +1,37 @@
 const Gameboard = (() => {
-    const spaces = ['X', 'O', 'X', 'O', 'X', 'O', 'X', 'O', 'X'];
+    const spaces = ['', '', '', '', '', '', '', '', ''];
     const render = function() {
         for (let i = 0; i < spaces.length; i++) {
+            const txt = `<p>${spaces[i]}</p>`;
+            const id = `spc${i}`;
             $(".gameBoard").append(`<p>${spaces[i]}</p>`);
         }
     };
+    const update = function(index) {
+        Array.from($(".gameBoard").children())[index].innerHTML = "X";
+    }
 
     return {
         spaces,
-        render
+        render,
+        update
     };
 })();
 
-var displayController = (() => {
-    $("p").click(function() {
-        alert("Clicked!");
-    });
+const Displaycontroller = (() => {
+    const alert = function() {
+        const container = Array.from($(".gameBoard").children());
+
+        $("p").click(function() {
+            const spaceNum = container.indexOf(this);
+            Gameboard.spaces[spaceNum] = 'X';
+            Gameboard.update(spaceNum);
+        });
+    }
+
+    return {
+        alert
+    }
 })();
 
 var Player = (role) => {
@@ -28,5 +44,4 @@ var playerOne = Player('X');
 var playerTwo = Player('O');
 
 Gameboard.render();
-
-console.log(displayController);
+Displaycontroller.alert();
