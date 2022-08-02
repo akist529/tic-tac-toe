@@ -8,7 +8,9 @@ const Gameboard = (() => {
         }
     };
     const update = function(index) {
-        Array.from($(".gameBoard").children())[index].innerHTML = "X";
+        Array.from($(".gameBoard").children())[index].innerHTML = (playerOne.turn ? "X" : "O");
+        playerOne.turn = !playerOne.turn;
+        playerTwo.turn = !playerTwo.turn;
     }
 
     return {
@@ -19,29 +21,37 @@ const Gameboard = (() => {
 })();
 
 const Displaycontroller = (() => {
-    const alert = function() {
+    const takeTurn = function() {
         const container = Array.from($(".gameBoard").children());
 
         $("p").click(function() {
             const spaceNum = container.indexOf(this);
-            Gameboard.spaces[spaceNum] = 'X';
-            Gameboard.update(spaceNum);
+
+            if(Gameboard.spaces[spaceNum] !== '') {
+                return;
+            }
+            else {
+                Gameboard.spaces[spaceNum] = (playerOne.turn ? 'X' : 'O');
+                Gameboard.update(spaceNum);
+            }
         });
     }
 
     return {
-        alert
+        takeTurn
     }
 })();
 
-var Player = (role) => {
+var Player = (role, turn, score) => {
     return {
-        role
+        role,
+        turn,
+        score
     };
 };
 
-var playerOne = Player('X');
-var playerTwo = Player('O');
+var playerOne = Player('X', true);
+var playerTwo = Player('O', false);
 
 Gameboard.render();
-Displaycontroller.alert();
+Displaycontroller.takeTurn();
