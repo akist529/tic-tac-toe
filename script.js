@@ -9,6 +9,9 @@ const Gameboard = (() => {
     };
     const update = function(index) {
         Array.from($(".gameBoard").children())[index].innerHTML = (playerOne.turn ? "X" : "O");
+        if (Displaycontroller.checkWin((playerOne.turn ? playerOne : playerTwo), spaces)) {
+            return;
+        }
         playerOne.turn = !playerOne.turn;
         playerTwo.turn = !playerTwo.turn;
     }
@@ -37,8 +40,33 @@ const Displaycontroller = (() => {
         });
     }
 
+    const checkWin = function(player, arr) {
+        for (let i = 0; i < arr.length; i++) {
+            if (arr[i] === player.role && arr[(i + 3) % arr.length] === player.role && arr[(i + 6) % arr.length] === player.role) {
+                console.log("Win!");
+                return true;
+            }
+
+            if (arr[i] === player.role && arr[(i + 1) % arr.length] === player.role && arr[(i + 2) % arr.length] === player.role) {
+                console.log("Win!");
+                return true;
+            }
+
+            if (arr[0] === player.role && arr[4] === player.role && arr[8] === player.role) {
+                console.log("Win!");
+                return true;
+            }
+
+            if (arr[2] === player.role && arr[4] === player.role && arr[6] === player.role) {
+                console.log("Win!");
+                return true;
+            }
+        }
+    }
+
     return {
-        takeTurn
+        takeTurn,
+        checkWin
     }
 })();
 
