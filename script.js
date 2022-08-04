@@ -1,24 +1,40 @@
 const Gameboard = (() => {
-    const spaces = ['', '', '', '', '', '', '', '', ''];
+    var spaces = [];
+
+    for (let i = 0; i < 9; i++) {
+        spaces.push('');
+    }
+
     const render = function() {
         for (let i = 0; i < spaces.length; i++) {
-            const txt = `<p>${spaces[i]}</p>`;
-            const id = `spc${i}`;
-            $(".gameBoard").append(`<p>${spaces[i]}</p>`);
+            const space = `<p>${spaces[i]}</p>`;
+            $(".gameBoard").append(space);
         }
     };
+
     const update = function(index) {
         Array.from($(".gameBoard").children())[index].innerHTML = (playerOne.turn ? "X" : "O");
+
         if (Displaycontroller.checkWin((playerOne.turn ? playerOne : playerTwo), spaces)) {
+            reset();
             return;
         }
+
         playerOne.turn = !playerOne.turn;
         playerTwo.turn = !playerTwo.turn;
+    }
+
+    const reset = function() {
+        spaces = [];
+        let html = Array.from($(".gameBoard").children());
+
+        html.map(cell => cell.innerText = '');
     }
 
     return {
         spaces,
         render,
+        reset,
         update
     };
 })();
