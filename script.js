@@ -92,6 +92,7 @@ const displayController = (() => {
         // Checks for tie (all cells filled with no winner)
         if (arr.every(cell => cell)) {
             console.log("Tie!");
+            return true;
         }
     }
 
