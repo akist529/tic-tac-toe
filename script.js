@@ -64,19 +64,19 @@ const displayController = (() => {
         for (let i = 0; i < arr.length; i++) {
             // Checks vertical rows for a win
             if (arr[i] === player.role && arr[(i + 3) % arr.length] === player.role && arr[(i + 6) % arr.length] === player.role) {
-                console.log("Win Condition 1");
+                player.score++;
                 return true;
             }
 
             // Checks diagonal left-to-right for a win
             if (arr[0] === player.role && arr[4] === player.role && arr[8] === player.role) {
-                console.log("Win Condition 3");
+                player.score++;
                 return true;
             }
 
             // Checks diagonal right-to-left for a win
             if (arr[2] === player.role && arr[4] === player.role && arr[6] === player.role) {
-                console.log("Win Condition 4");
+                player.score++;
                 return true;
             }
         }
@@ -84,14 +84,13 @@ const displayController = (() => {
         // Checks horizontal rows for a win
         for (let i = 0; i < arr.length; i+= 3) {
             if (arr[i] === player.role && arr[(i + 1) % arr.length] === player.role && arr[(i + 2) % arr.length] === player.role) {
-                console.log("Win Condition 2");
+                player.score++;
                 return true;
             }
         }
 
         // Checks for tie (all cells filled with no winner)
         if (arr.every(cell => cell)) {
-            console.log("Tie!");
             return true;
         }
     }
@@ -109,5 +108,5 @@ var Player = (role, turn, score) => {
     };
 };
 
-var playerOne = Player('X', true);
-var playerTwo = Player('O', false);
+var playerOne = Player('X', true, 0);
+var playerTwo = Player('O', false, 0);
