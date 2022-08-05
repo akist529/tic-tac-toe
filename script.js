@@ -25,13 +25,11 @@ const Gameboard = (() => {
     }
 
     const reset = function() {
-        Gameboard.spaces = [];
-
         for (let i = 0; i < 9; i++) {
-            Gameboard.spaces.push('');
+            spaces[i] = '';
         }
 
-        for (const space of $(".gameBoard").children()) {
+        for (const space of Array.from($(".gameBoard").children())) {
             space.innerHTML = '';
         }
     }
