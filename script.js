@@ -15,8 +15,22 @@ const Gameboard = (() => {
     const update = function(index) {
         Array.from($(".gameBoard").children())[index].innerHTML = (playerOne.turn ? "X" : "O");
 
-        if (displayController.checkWin((playerOne.turn ? playerOne : playerTwo), spaces)) {
+        const player = (playerOne.turn ? playerOne: playerTwo);
+
+        if (displayController.checkWin(player, spaces)) {
             reset();
+
+            switch(player.role) {
+                case 'X':
+                    $("#pOneScore").get(0).innerHTML = player.score;
+                    break;
+                case 'O':
+                    $("#pTwoScore").get(0).innerHTML = player.score;
+                    break;
+                default:
+                    break;
+            }
+
             return;
         }
 
