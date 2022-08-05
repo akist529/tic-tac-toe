@@ -5,17 +5,17 @@ const Gameboard = (() => {
         spaces.push('');
     }
 
-    const render = function() {
+    const render = (function() {
         for (let i = 0; i < spaces.length; i++) {
             const space = `<p>${spaces[i]}</p>`;
             $(".gameBoard").append(space);
         }
-    };
+    })();
 
     const update = function(index) {
         Array.from($(".gameBoard").children())[index].innerHTML = (playerOne.turn ? "X" : "O");
 
-        if (Displaycontroller.checkWin((playerOne.turn ? playerOne : playerTwo), spaces)) {
+        if (displayController.checkWin((playerOne.turn ? playerOne : playerTwo), spaces)) {
             reset();
             return;
         }
@@ -25,35 +25,28 @@ const Gameboard = (() => {
     }
 
     const reset = function() {
-        spaces = [];
+        Gameboard.spaces = [];
 
         for (let i = 0; i < 9; i++) {
-            spaces.push('');
+            Gameboard.spaces.push('');
         }
-
-        console.log(spaces);
 
         for (const space of $(".gameBoard").children()) {
-            space.remove();
+            space.innerHTML = '';
         }
-
-        render();
-        Displaycontroller.takeTurn();
     }
 
     return {
         spaces,
-        render,
         reset,
         update
     };
 })();
 
-const Displaycontroller = (() => {
-    const takeTurn = function() {
+const displayController = (() => {
+    // Mark space for player if it's not already taken
+    const playerTurn = (function() {
         const container = Array.from($(".gameBoard").children());
-
-        console.log(Gameboard.spaces);
 
         $("p").click(function() {
             const spaceNum = container.indexOf(this);
@@ -66,8 +59,9 @@ const Displaycontroller = (() => {
                 Gameboard.update(spaceNum);
             }
         });
-    }
+    })();
 
+    // Check the state of the board to see if the current player has won
     const checkWin = function(player, arr) {
         for (let i = 0; i < arr.length; i++) {
             // Checks vertical rows for a win
@@ -104,7 +98,6 @@ const Displaycontroller = (() => {
     }
 
     return {
-        takeTurn,
         checkWin
     }
 })();
@@ -119,6 +112,3 @@ var Player = (role, turn, score) => {
 
 var playerOne = Player('X', true);
 var playerTwo = Player('O', false);
-
-Gameboard.render();
-Displaycontroller.takeTurn();
