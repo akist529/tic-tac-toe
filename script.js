@@ -26,9 +26,19 @@ const Gameboard = (() => {
 
     const reset = function() {
         spaces = [];
-        let html = Array.from($(".gameBoard").children());
 
-        html.map(cell => cell.innerText = '');
+        for (let i = 0; i < 9; i++) {
+            spaces.push('');
+        }
+
+        console.log(spaces);
+
+        for (const space of $(".gameBoard").children()) {
+            space.remove();
+        }
+
+        render();
+        Displaycontroller.takeTurn();
     }
 
     return {
@@ -42,6 +52,8 @@ const Gameboard = (() => {
 const Displaycontroller = (() => {
     const takeTurn = function() {
         const container = Array.from($(".gameBoard").children());
+
+        console.log(Gameboard.spaces);
 
         $("p").click(function() {
             const spaceNum = container.indexOf(this);
