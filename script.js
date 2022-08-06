@@ -19,7 +19,7 @@ const Gameboard = (() => {
         const player = (playerOne.turn ? playerOne: playerTwo);
 
         if (displayController.checkWin(player, spaces)) {
-            reset();
+            setTimeout(reset, 1000);
 
             switch(player.role) {
                 case 'X':
@@ -46,7 +46,11 @@ const Gameboard = (() => {
 
         for (const space of Array.from($(".gameBoard").children())) {
             space.innerHTML = '';
-            space.style.backgroundColor = "black";
+        }
+
+        for (const cell of $("p")) {
+            cell.style.backgroundColor = "black";
+            cell.style.color = "black";
         }
     }
 
@@ -73,6 +77,17 @@ const displayController = (() => {
                 Gameboard.update(spaceNum);
             }
         });
+
+        $("p").hover(function() {
+            const spaceNum = container.indexOf(this);
+
+            if(Gameboard.spaces[spaceNum] !== '') {
+                return;
+            }
+            else {
+                Array.from($(".gameBoard").children()[spaceNum].innerHTML = (playerOne.turn ? 'X' : 'O'));
+            }
+        });
     })();
 
     // Check the state of the board to see if the current player has won
@@ -81,6 +96,12 @@ const displayController = (() => {
             // Checks vertical rows for a win
             if (arr[i] === player.role && arr[(i + 3) % arr.length] === player.role && arr[(i + 6) % arr.length] === player.role) {
                 player.score++;
+                Array.from($(".gameBoard").children()[i].style.backgroundColor = "black");
+                Array.from($(".gameBoard").children()[i].style.color = "white");
+                Array.from($(".gameBoard").children()[i + 3].style.backgroundColor = "black");
+                Array.from($(".gameBoard").children()[i + 3].style.color = "white");
+                Array.from($(".gameBoard").children()[i + 6].style.backgroundColor = "black");
+                Array.from($(".gameBoard").children()[i + 6].style.color = "white");
                 return true;
             }
 

@@ -64,6 +64,19 @@ h2 {
     display: flex;
     justify-content: center;
     align-items: center;
+
+    animation: 0.5s ease-out 0s 1 header-load;
+}
+
+@keyframes header-load {
+    0% {
+        opacity: 0%;
+        transform: translateY(-100%);
+    }
+    100% {
+        opacity: 100%;
+        transform: translateY(0);
+    }
 }
 
 .game {
@@ -77,6 +90,19 @@ h2 {
     justify-items: center;
 
     border-top: 3px solid white;
+
+    animation: 0.5s ease-out 0s 1 game-load;
+}
+
+@keyframes game-load {
+    0% {
+        opacity: 0%;
+        transform: translateY(50%);
+    }
+    100% {
+        opacity: 100%;
+        transform: translateY(0);
+    }
 }
 
 .scoreboard {
