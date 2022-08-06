@@ -14,6 +14,7 @@ const Gameboard = (() => {
 
     const update = function(index) {
         Array.from($(".gameBoard").children())[index].innerHTML = (playerOne.turn ? "X" : "O");
+        Array.from($(".gameBoard").children())[index].style.backgroundColor = "white";
 
         const player = (playerOne.turn ? playerOne: playerTwo);
 
@@ -45,6 +46,7 @@ const Gameboard = (() => {
 
         for (const space of Array.from($(".gameBoard").children())) {
             space.innerHTML = '';
+            space.style.backgroundColor = "black";
         }
     }
 

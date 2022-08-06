@@ -3,23 +3,47 @@
     <head>
         <meta charset="utf-8"/>
         <link rel="stylesheet" href="./style.css"/>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Square+Peg">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Square+Peg|Neonderthaw|Limelight">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <title>Tic-Tac-Toe</title>
     </head>
     <body>
-        <div class="scoreBoard">
-            <div class="playerOne">
-                <h1>Player One</h1>
-                <h2 id="pOneScore">0</h2>
+        <div class="container">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div class="header">
+                <h1>Tic-Tac-Toe</h1>
             </div>
-            <div class="playerTwo">
-                <h1>Player Two</h1>
-                <h2 id="pTwoScore">0</h2>
+            <div class="game">
+                <div class="scoreboard">
+                    <div class="playerOne">
+                        <div>
+                            <h3 id="pOneScore">0</h3>
+                        </div>
+                        <div>
+                            <h2>Player One</h2>
+                            <h2 class="arrow">&#8593</h2>
+                        </div>
+                    </div>
+                    <div class="playerTwo">
+                        <div>
+                            <h3 id="pTwoScore">0</h3>
+                        </div>
+                        <div>
+                            <h2>Player Two</h2>
+                            <h2 class="arrow">&#8593</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="gameBoard">
+                </div>
             </div>
-        </div>
-        <div class="gameBoard">
         </div>
         <script type="text/javascript" src="./script.js"></script>
     </body>
+    <footer>
+        <small>© 2022 Alex Kist</small>
+    </footer>
 </html>
