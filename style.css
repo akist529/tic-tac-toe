@@ -65,7 +65,7 @@ h2 {
     justify-content: center;
     align-items: center;
 
-    animation: 0.5s ease-out 0s 1 header-load;
+    animation: 0.5s ease-out 0s 1 header-load, 0.2s ease-out 0.5s 2 header-flicker;
 }
 
 @keyframes header-load {
@@ -76,6 +76,15 @@ h2 {
     100% {
         opacity: 100%;
         transform: translateY(0);
+    }
+}
+
+@keyframes header-flicker {
+    0% {
+        opacity: 0%;
+    }
+    100% {
+        opacity: 100%;
     }
 }
 
@@ -159,6 +168,17 @@ h2 {
     display: grid;
     grid-template-columns: repeat(3, 100px);
     grid-template-rows: repeat(3, 100px);
+
+    animation: 1s linear 0s 1 gameBoard-load;
+}
+
+@keyframes gameBoard-load {
+    0% {
+        opacity: 0%;
+    }
+    100% {
+        opacity: 100%;
+    }
 }
 
 .gameBoard p {
