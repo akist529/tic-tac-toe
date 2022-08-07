@@ -44,14 +44,38 @@ const Gameboard = (() => {
             spaces[i] = '';
         }
 
-        for (const space of Array.from($(".gameBoard").children())) {
-            space.innerHTML = '';
-        }
-
         for (const cell of $("p")) {
+            cell.innerHTML = "";
             cell.style.backgroundColor = "black";
             cell.style.color = "black";
         }
+
+        $("p").hover(function() {
+            $(this).css("background-color", "white");
+        }, function() {
+            const spaceNum = container.indexOf(this);
+
+            if(Gameboard.spaces[spaceNum] !== '') {
+                return;
+            }
+            else {
+                $(this).css("background-color", "black");
+            }
+        });
+
+        const container = Array.from($(".gameBoard").children());
+
+        $("p").click(function() {
+            const spaceNum = container.indexOf(this);
+
+            if(Gameboard.spaces[spaceNum] !== '') {
+                return;
+            }
+            else {
+                Gameboard.spaces[spaceNum] = (playerOne.turn ? 'X' : 'O');
+                Gameboard.update(spaceNum);
+            }
+        });
     }
 
     return {
@@ -108,12 +132,24 @@ const displayController = (() => {
             // Checks diagonal left-to-right for a win
             if (arr[0] === player.role && arr[4] === player.role && arr[8] === player.role) {
                 player.score++;
+                Array.from($(".gameBoard").children()[0].style.backgroundColor = "black");
+                Array.from($(".gameBoard").children()[0].style.color = "white");
+                Array.from($(".gameBoard").children()[4].style.backgroundColor = "black");
+                Array.from($(".gameBoard").children()[4].style.color = "white");
+                Array.from($(".gameBoard").children()[8].style.backgroundColor = "black");
+                Array.from($(".gameBoard").children()[8].style.color = "white");
                 return true;
             }
 
             // Checks diagonal right-to-left for a win
             if (arr[2] === player.role && arr[4] === player.role && arr[6] === player.role) {
                 player.score++;
+                Array.from($(".gameBoard").children()[2].style.backgroundColor = "black");
+                Array.from($(".gameBoard").children()[2].style.color = "white");
+                Array.from($(".gameBoard").children()[4].style.backgroundColor = "black");
+                Array.from($(".gameBoard").children()[4].style.color = "white");
+                Array.from($(".gameBoard").children()[6].style.backgroundColor = "black");
+                Array.from($(".gameBoard").children()[6].style.color = "white");
                 return true;
             }
         }
@@ -122,12 +158,27 @@ const displayController = (() => {
         for (let i = 0; i < arr.length; i+= 3) {
             if (arr[i] === player.role && arr[(i + 1) % arr.length] === player.role && arr[(i + 2) % arr.length] === player.role) {
                 player.score++;
+                Array.from($(".gameBoard").children()[i].style.backgroundColor = "black");
+                Array.from($(".gameBoard").children()[i].style.color = "white");
+                Array.from($(".gameBoard").children()[i + 1].style.backgroundColor = "black");
+                Array.from($(".gameBoard").children()[i + 1].style.color = "white");
+                Array.from($(".gameBoard").children()[i + 2].style.backgroundColor = "black");
+                Array.from($(".gameBoard").children()[i + 2].style.color = "white");
                 return true;
             }
         }
 
         // Checks for tie (all cells filled with no winner)
         if (arr.every(cell => cell)) {
+            for (const cell in Array.from($(".gameBoard").children())) {
+                cell.style.backgroundColor = "black";
+                cell.style.color = "white";
+                cell.style.backgroundColor = "black";
+                cell.style.color = "white";
+                cell.style.backgroundColor = "black";
+                cell.style.color = "white";
+            }
+
             return true;
         }
     }
