@@ -11,9 +11,21 @@
         <div class="popup-container">
             <div class="popup">
                 <h2 id="popup-text"></h2>
-                <div>
-                    <button onClick="displayController.playerMode()">2-Player</button>
-                    <button onClick="displayController.compMode()">AI</button>
+                <div class="popup-inputs">
+                    <div>
+                        <label for="playerOne">Player 1 Name:</label>
+                        <input id="playerOne" name="playerOne" placeholder="Player 1" />
+                    </div>
+                    <div>
+                        <label for="playerTwo">Player 2 Name:</label>
+                        <input id="playerTwo" name="playerTwo" placeholder="Player 2" />
+                    </div>
+                    <button id="playerStart" onClick="displayController.playerMode()">Start Game</button>
+                    <button id="compStart" onClick="displayController.compMode()">Start Game</button>
+                </div>
+                <div class="popup-buttons">
+                    <button onClick="displayController.playerInputs()">2-Player</button>
+                    <button onClick="displayController.compInputs()">AI</button>
                 </div>
             </div>
         </div>
@@ -32,7 +44,7 @@
                             <h3 id="pOneScore">0</h3>
                         </div>
                         <div>
-                            <h2>Player One</h2>
+                            <h2 id="pOneName">Player 1</h2>
                             <h2 class="arrow">&#8593</h2>
                         </div>
                     </div>
@@ -41,7 +53,7 @@
                             <h3 id="pTwoScore">0</h3>
                         </div>
                         <div>
-                            <h2>Player Two</h2>
+                            <h2 id="pTwoName">Player 2</h2>
                             <h2 class="arrow">&#8593</h2>
                         </div>
                     </div>

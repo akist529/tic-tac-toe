@@ -42,7 +42,7 @@ h2 {
     position: fixed;
     background-color: white;
     width: 50vw;
-    height: 20vh;
+    height: auto;
     z-index: 2;
 
     display: flex;
@@ -53,7 +53,7 @@ h2 {
 
     border: 2px solid white;
     border-radius: 3px;
-    padding: 5px;
+    padding: 20px;
     background-color: rgb(0, 0, 31);
 
     font-family: "Limelight";
@@ -66,7 +66,13 @@ h2 {
     opacity: 0%;
 }
 
-.popup > div {
+.popup-inputs {
+    display: none;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.popup-buttons {
     display: none;
     gap: 60px;
 }
@@ -268,4 +274,9 @@ h2 {
 
     z-index: 0;
     bottom: 0;
+}
+
+#playerStart,
+#compStart {
+    display: none;
 }

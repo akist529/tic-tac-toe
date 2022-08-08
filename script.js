@@ -9,7 +9,7 @@ const Gameboard = (() => {
         $("#popup-text").html("2-Player Mode or AI?");
 
         $(".popup-container").css("display", "flex");
-        $(".popup div").css("display", "flex");
+        $(".popup-buttons").css("display", "flex");
 
         $(".popup").animate({
             opacity: "100%"
@@ -202,6 +202,7 @@ const displayController = (() => {
 
     const popup = function(player) {
         if (!player) {
+            $("#popup-text").css("display", "block");
             $("#popup-text").html("Tie!");
 
             $(".popup-container").css("display", "flex");
@@ -218,7 +219,8 @@ const displayController = (() => {
             }, 1200);
         }
         else if (player === playerOne) {
-            $("#popup-text").html("Player 1 Wins!");
+            $("#popup-text").css("display", "block");
+            $("#popup-text").html(`${player.name} Wins!`);
 
             $(".popup-container").css("display", "flex");
 
@@ -234,7 +236,8 @@ const displayController = (() => {
             }, 1200);
         }
         else if (player === playerTwo) {
-            $("#popup-text").html("Player 2 Wins!");
+            $("#popup-text").css("display", "block");
+            $("#popup-text").html(`${player.name} Wins!`);
 
             $(".popup-container").css("display", "flex");
 
@@ -251,18 +254,67 @@ const displayController = (() => {
         }
     }
 
+    const playerInputs = function() {
+        $("#popup-text").css("display", "none");
+        $(".popup-buttons").css("display", "none");
+        $(".popup-inputs").css("display", "flex");
+        $("#playerStart").css("display", "block");
+    }
+
+    const compInputs = function() {
+        $("#popup-text").css("display", "none");
+        $(".popup-buttons").css("display", "none");
+        $(".popup-inputs").css("display", "flex");
+        $(".popup-inputs div:nth-child(2)").css("display", "none");
+        $("#compStart").css("display", "block");
+    }
+
     const playerMode = function() {
-        $(".popup div").css("display", "none");
+        if (!$("#playerOne").val()) {
+            $("#pOneName").html("Player 1");
+            playerOne.name = "Player 1";
+        } else {
+            $("#pOneName").html($("#playerOne").val());
+            playerOne.name = $("#playerOne").val();
+        }
+
+        if (!$("#playerTwo").val()) {
+            $("#pTwoName").html("Player 2");
+            playerTwo.name = "Player 2";
+        } else {
+            $("#pTwoName").html($("#playerTwo").val());
+            playerTwo.name = $("#playerTwo").val();
+        }
+
+        $("#playerOne").val("");
+        $("#playerTwo").val("");
+
+        $(".popup-inputs").css("display", "none");
         $(".popup-container").css("display", "none");
     }
 
     const compMode = function() {
-        $(".popup div").css("display", "none");
+        if (!$("#playerOne").val()) {
+            $("#pOneName").html("Player");
+            playerOne.name = "Player";
+        } else {
+            $("#pOneName").html($("#playerOne").val());
+            playerOne.name = $("#playerOne").val();
+        }
+
+        $("#playerOne").val("");
+
+        $("#pTwoName").html("Computer");
+        playerTwo.name = "Computer";
+
+        $(".popup-inputs").css("display", "none");
         $(".popup-container").css("display", "none");
     }
 
     return {
         checkWin,
+        playerInputs,
+        compInputs,
         playerMode,
         compMode
     }
