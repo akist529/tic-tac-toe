@@ -138,7 +138,9 @@ const displayController = (() => {
                 Array.from($(".gameBoard").children())[i].style.backgroundColor = "black";
                 Array.from($(".gameBoard").children())[i].style.color = "white";
             }
-            
+
+            popup();
+
             return true;
         }
 
@@ -147,6 +149,7 @@ const displayController = (() => {
             if (arr[i] === player.role && arr[(i + 1) % arr.length] === player.role && arr[(i + 2) % arr.length] === player.role) {
                 player.score++;
                 showWin(i, i + 1, i + 2);
+                popup(player);
                 return true;
             }
         }
@@ -156,12 +159,14 @@ const displayController = (() => {
             if (arr[i] === player.role && arr[(i + 3) % arr.length] === player.role && arr[(i + 6) % arr.length] === player.role) {
                 player.score++;
                 showWin(i, i + 3, i + 6);
+                popup(player);
                 return true;
             }
             // Checks diagonal left-to-right for a win
             else if (arr[0] === player.role && arr[4] === player.role && arr[8] === player.role) {
                 player.score++;
                 showWin(0, 4, 8);
+                popup(player);
                 return true;
             }
 
@@ -169,6 +174,7 @@ const displayController = (() => {
             else if (arr[2] === player.role && arr[4] === player.role && arr[6] === player.role) {
                 player.score++;
                 showWin(2, 4, 6);
+                popup(player);
                 return true;
             }
         }
@@ -180,6 +186,24 @@ const displayController = (() => {
             Array.from($(".gameBoard").children()[index2].style.color = "white");
             Array.from($(".gameBoard").children()[index3].style.backgroundColor = "black");
             Array.from($(".gameBoard").children()[index3].style.color = "white");
+        }
+    }
+
+    const popup = function(player) {
+        if (!player) {
+            $("#popup-text").html("Tie!");
+            $(".popup-container").css("display", "flex");
+            setTimeout(() => { $(".popup-container").hide() }, 1000);
+        }
+        else if (player === playerOne) {
+            $("#popup-text").html("Player 1 Wins!");
+            $(".popup-container").css("display", "flex");
+            setTimeout(() => { $(".popup-container").hide() }, 1000);
+        }
+        else if (player === playerTwo) {
+            $("#popup-text").html("Player 2 Wins!");
+            $(".popup-container").css("display", "flex");
+            setTimeout(() => { $(".popup-container").hide() }, 1000);
         }
     }
 
