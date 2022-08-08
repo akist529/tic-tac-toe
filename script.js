@@ -5,6 +5,17 @@ const Gameboard = (() => {
         spaces.push('');
     }
 
+    setTimeout(() => {
+        $("#popup-text").html("2-Player Mode or AI?");
+
+        $(".popup-container").css("display", "flex");
+        $(".popup div").css("display", "flex");
+
+        $(".popup").animate({
+            opacity: "100%"
+        }, 300);
+    }, 1000);
+
     const render = (function() {
         for (let i = 0; i < spaces.length; i++) {
             const space = `<p>${spaces[i]}</p>`;
@@ -240,8 +251,20 @@ const displayController = (() => {
         }
     }
 
+    const playerMode = function() {
+        $(".popup div").css("display", "none");
+        $(".popup-container").css("display", "none");
+    }
+
+    const compMode = function() {
+        $(".popup div").css("display", "none");
+        $(".popup-container").css("display", "none");
+    }
+
     return {
-        checkWin
+        checkWin,
+        playerMode,
+        compMode
     }
 })();
 
