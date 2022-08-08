@@ -19,6 +19,8 @@ const Gameboard = (() => {
         const player = (playerOne.turn ? playerOne: playerTwo);
 
         if (displayController.checkWin(player, spaces)) {
+            $("p").off("mouseenter");
+            $("p").off("click");
             setTimeout(reset, 1000);
 
             switch(player.role) {
@@ -50,30 +52,32 @@ const Gameboard = (() => {
             cell.style.color = "black";
         }
 
-        $("p").hover(function() {
-            $(this).css("background-color", "white");
-        }, function() {
-            const spaceNum = container.indexOf(this);
-
-            if(Gameboard.spaces[spaceNum] !== '') {
-                return;
-            }
-            else {
-                $(this).css("background-color", "black");
-            }
-        });
-
         const container = Array.from($(".gameBoard").children());
 
-        $("p").click(function() {
-            const spaceNum = container.indexOf(this);
+        $("p").on({
+            click: function() {
+                const spaceNum = container.indexOf(this);
 
-            if(Gameboard.spaces[spaceNum] !== '') {
-                return;
-            }
-            else {
-                Gameboard.spaces[spaceNum] = (playerOne.turn ? 'X' : 'O');
-                Gameboard.update(spaceNum);
+                if(Gameboard.spaces[spaceNum] !== '') {
+                    return;
+                }
+                else {
+                    Gameboard.spaces[spaceNum] = (playerOne.turn ? 'X' : 'O');
+                    Gameboard.update(spaceNum);
+                }
+            },
+            mouseenter: function() {
+                $(this).css("background-color", "white");
+            },
+            mouseleave: function() {
+                const spaceNum = container.indexOf(this);
+
+                if(Gameboard.spaces[spaceNum] !== '') {
+                    return;
+                }
+                else {
+                    $(this).css("background-color", "black");
+                }
             }
         });
     }
@@ -90,26 +94,30 @@ const displayController = (() => {
     const playerTurn = (function() {
         const container = Array.from($(".gameBoard").children());
 
-        $("p").click(function() {
-            const spaceNum = container.indexOf(this);
+        $("p").on({
+            click: function() {
+                const spaceNum = container.indexOf(this);
 
-            if(Gameboard.spaces[spaceNum] !== '') {
-                return;
-            }
-            else {
-                Gameboard.spaces[spaceNum] = (playerOne.turn ? 'X' : 'O');
-                Gameboard.update(spaceNum);
-            }
-        });
+                if(Gameboard.spaces[spaceNum] !== '') {
+                    return;
+                }
+                else {
+                    Gameboard.spaces[spaceNum] = (playerOne.turn ? 'X' : 'O');
+                    Gameboard.update(spaceNum);
+                }
+            },
+            mouseenter: function() {
+                $(this).css("background-color", "white");
+            },
+            mouseleave: function() {
+                const spaceNum = container.indexOf(this);
 
-        $("p").hover(function() {
-            const spaceNum = container.indexOf(this);
-
-            if(Gameboard.spaces[spaceNum] !== '') {
-                return;
-            }
-            else {
-                Array.from($(".gameBoard").children()[spaceNum].innerHTML = (playerOne.turn ? 'X' : 'O'));
+                if(Gameboard.spaces[spaceNum] !== '') {
+                    return;
+                }
+                else {
+                    $(this).css("background-color", "black");
+                }
             }
         });
     })();
