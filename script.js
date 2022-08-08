@@ -27,10 +27,8 @@ const Gameboard = (() => {
                 case 'X':
                     $("#pOneScore").get(0).innerHTML = player.score;
                     break;
-                case 'O':
-                    $("#pTwoScore").get(0).innerHTML = player.score;
-                    break;
                 default:
+                    $("#pTwoScore").get(0).innerHTML = player.score;
                     break;
             }
 
@@ -58,16 +56,20 @@ const Gameboard = (() => {
             click: function() {
                 const spaceNum = container.indexOf(this);
 
-                if(Gameboard.spaces[spaceNum] !== '') {
+                if(Gameboard.spaces[spaceNum] !== "") {
                     return;
                 }
                 else {
-                    Gameboard.spaces[spaceNum] = (playerOne.turn ? 'X' : 'O');
+                    Gameboard.spaces[spaceNum] = (playerOne.turn ? "X" : "O");
                     Gameboard.update(spaceNum);
                 }
             },
             mouseenter: function() {
                 $(this).css("background-color", "white");
+
+                if($(this).html() === "") {
+                    $(this).html((playerOne.turn) ? "X" : "O");
+                }
             },
             mouseleave: function() {
                 const spaceNum = container.indexOf(this);
@@ -77,6 +79,7 @@ const Gameboard = (() => {
                 }
                 else {
                     $(this).css("background-color", "black");
+                    $(this).html("");
                 }
             }
         });
@@ -98,16 +101,20 @@ const displayController = (() => {
             click: function() {
                 const spaceNum = container.indexOf(this);
 
-                if(Gameboard.spaces[spaceNum] !== '') {
+                if(Gameboard.spaces[spaceNum] !== "") {
                     return;
                 }
                 else {
-                    Gameboard.spaces[spaceNum] = (playerOne.turn ? 'X' : 'O');
+                    Gameboard.spaces[spaceNum] = (playerOne.turn ? "X" : "O");
                     Gameboard.update(spaceNum);
                 }
             },
             mouseenter: function() {
                 $(this).css("background-color", "white");
+
+                if($(this).html() === "") {
+                    $(this).html((playerOne.turn) ? "X" : "O");
+                }
             },
             mouseleave: function() {
                 const spaceNum = container.indexOf(this);
@@ -117,6 +124,7 @@ const displayController = (() => {
                 }
                 else {
                     $(this).css("background-color", "black");
+                    $(this).html("");
                 }
             }
         });
