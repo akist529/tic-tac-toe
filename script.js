@@ -5,17 +5,6 @@ const Gameboard = (() => {
         spaces.push('');
     }
 
-    setTimeout(() => {
-        $("#popup-text").html("2-Player Mode or AI?");
-
-        $(".popup-container").css("display", "flex");
-        $(".popup-buttons").css("display", "flex");
-
-        $(".popup").animate({
-            opacity: "100%"
-        }, 300);
-    }, 1000);
-
     const render = (function() {
         for (let i = 0; i < spaces.length; i++) {
             const space = `<p>${spaces[i]}</p>`;
@@ -24,8 +13,9 @@ const Gameboard = (() => {
     })();
 
     const update = function(index) {
-        Array.from($(".gameBoard").children())[index].innerHTML = (playerOne.turn ? "X" : "O");
-        Array.from($(".gameBoard").children())[index].style.backgroundColor = "white";
+        const $cell = Array.from($(".gameBoard").children())[index];
+        $cell.innerHTML = (playerOne.turn ? "X" : "O");
+        $cell.style.backgroundColor = "white";
 
         const player = (playerOne.turn ? playerOne: playerTwo);
 
@@ -67,10 +57,9 @@ const Gameboard = (() => {
             click: function() {
                 const spaceNum = container.indexOf(this);
 
-                if(Gameboard.spaces[spaceNum] !== "") {
+                if (Gameboard.spaces[spaceNum] !== "") {
                     return;
-                }
-                else {
+                } else {
                     Gameboard.spaces[spaceNum] = (playerOne.turn ? "X" : "O");
                     Gameboard.update(spaceNum);
                 }
@@ -78,17 +67,16 @@ const Gameboard = (() => {
             mouseenter: function() {
                 $(this).css("background-color", "white");
 
-                if($(this).html() === "") {
+                if ($(this).html() === "") {
                     $(this).html((playerOne.turn) ? "X" : "O");
                 }
             },
             mouseleave: function() {
                 const spaceNum = container.indexOf(this);
 
-                if(Gameboard.spaces[spaceNum] !== '') {
+                if (Gameboard.spaces[spaceNum] !== '') {
                     return;
-                }
-                else {
+                } else {
                     $(this).css("background-color", "black");
                     $(this).html("");
                 }
@@ -104,7 +92,17 @@ const Gameboard = (() => {
 })();
 
 const displayController = (() => {
-    // Mark space for player if it's not already taken
+    setTimeout(() => {
+        $("#popup-text").html("2-Player Mode or AI?");
+
+        $(".popup-container").css("display", "flex");
+        $(".popup-buttons").css("display", "flex");
+
+        $(".popup").animate({
+            opacity: "100%"
+        }, 300);
+    }, 1000);
+
     const playerTurn = (function() {
         const container = Array.from($(".gameBoard").children());
 
@@ -112,10 +110,9 @@ const displayController = (() => {
             click: function() {
                 const spaceNum = container.indexOf(this);
 
-                if(Gameboard.spaces[spaceNum] !== "") {
+                if (Gameboard.spaces[spaceNum] !== "") {
                     return;
-                }
-                else {
+                } else {
                     Gameboard.spaces[spaceNum] = (playerOne.turn ? "X" : "O");
                     Gameboard.update(spaceNum);
                 }
@@ -123,17 +120,14 @@ const displayController = (() => {
             mouseenter: function() {
                 $(this).css("background-color", "white");
 
-                if($(this).html() === "") {
+                if ($(this).html() === "") {
                     $(this).html((playerOne.turn) ? "X" : "O");
                 }
             },
             mouseleave: function() {
                 const spaceNum = container.indexOf(this);
 
-                if(Gameboard.spaces[spaceNum] !== '') {
-                    return;
-                }
-                else {
+                if (Gameboard.spaces[spaceNum] === "") {
                     $(this).css("background-color", "black");
                     $(this).html("");
                 }
@@ -141,53 +135,80 @@ const displayController = (() => {
         });
     })();
 
-    // Check the state of the board to see if the current player has won
-    const checkWin = function(player, arr) {
-        // Checks for tie (all cells filled with no winner)
-        if (arr.every(cell => cell)) {
-            for (let i = 0; i < arr.length; i++) {
-                Array.from($(".gameBoard").children())[i].style.backgroundColor = "black";
-                Array.from($(".gameBoard").children())[i].style.color = "white";
+    const compTurn = function() {
+        const container = Array.from($(".gameBoard").children());
+        const spaceNum = container.indexOf(this);
+
+        const move = Math.ceil(Math.random() * 8);
+
+        for (let i = 0; i < container.length; i++) {
+            if (Gameboard.spaces[spaceNum] !== "") {
+                continue;
+            } else {
+                Gameboard.spaces[spaceNum] = ("O");
+                Gameboard.update(spaceNum);
             }
-
-            setTimeout(() => popup(), 750);
-
-            return true;
         }
+    }
 
+    const checkWin = function(player, arr) {
         // Checks horizontal rows for a win
         for (let i = 0; i < arr.length; i+= 3) {
-            if (arr[i] === player.role && arr[(i + 1) % arr.length] === player.role && arr[(i + 2) % arr.length] === player.role) {
+            if (arr[i] === player.role && 
+                arr[(i + 1) % arr.length] === player.role && 
+                arr[(i + 2) % arr.length] === player.role)
+            {
                 player.score++;
                 showWin(i, i + 1, i + 2);
-                setTimeout(() => popup(player), 750);
+                setTimeout(() => popUp(player), 750);
                 return true;
             }
         }
 
         for (let i = 0; i < arr.length; i++) {
             // Checks vertical rows for a win
-            if (arr[i] === player.role && arr[(i + 3) % arr.length] === player.role && arr[(i + 6) % arr.length] === player.role) {
+            if (arr[i] === player.role && 
+                arr[(i + 3) % arr.length] === player.role && 
+                arr[(i + 6) % arr.length] === player.role)
+            {
                 player.score++;
                 showWin(i, i + 3, i + 6);
-                setTimeout(() => popup(player), 750);
+                setTimeout(() => popUp(player), 750);
                 return true;
             }
             // Checks diagonal left-to-right for a win
-            else if (arr[0] === player.role && arr[4] === player.role && arr[8] === player.role) {
+            else if (arr[0] === player.role && 
+                arr[4] === player.role && 
+                arr[8] === player.role)
+            {
                 player.score++;
                 showWin(0, 4, 8);
-                setTimeout(() => popup(player), 750);
+                setTimeout(() => popUp(player), 750);
                 return true;
             }
 
             // Checks diagonal right-to-left for a win
-            else if (arr[2] === player.role && arr[4] === player.role && arr[6] === player.role) {
+            else if (arr[2] === player.role && 
+                arr[4] === player.role && 
+                arr[6] === player.role)
+            {
                 player.score++;
                 showWin(2, 4, 6);
-                setTimeout(() => popup(player), 750);
+                setTimeout(() => popUp(player), 750);
                 return true;
             }
+        }
+
+        // Checks for tie (all cells filled with no winner)
+        if (arr.every(cell => cell)) {
+            for (let i = 0; i < arr.length; i++) {
+                const $cell = Array.from($(".gameBoard").children())[i];
+                $cell.style.backgroundColor = "black";
+                $cell.style.color = "white";
+            }
+
+            setTimeout(() => popUp(), 750);
+            return true;
         }
 
         function showWin(index1, index2, index3) {
@@ -200,7 +221,7 @@ const displayController = (() => {
         }
     }
 
-    const popup = function(player) {
+    const popUp = function(player) {
         if (!player) {
             $("#popup-text").css("display", "block");
             $("#popup-text").html("Tie!");
@@ -306,6 +327,7 @@ const displayController = (() => {
 
         $("#pTwoName").html("Computer");
         playerTwo.name = "Computer";
+        playerTwo.isAI = "true";
 
         $(".popup-inputs").css("display", "none");
         $(".popup-container").css("display", "none");
@@ -320,13 +342,14 @@ const displayController = (() => {
     }
 })();
 
-var Player = (role, turn, score) => {
+var Player = (role, turn, score, isAI) => {
     return {
         role,
         turn,
-        score
+        score,
+        isAI
     };
 };
 
-var playerOne = Player('X', true, 0);
-var playerTwo = Player('O', false, 0);
+var playerOne = Player('X', true, 0, false);
+var playerTwo = Player('O', false, 0, false);
