@@ -20,8 +20,7 @@ const Gameboard = (() => {
         const player = (playerOne.turn ? playerOne: playerTwo);
 
         if (displayController.checkWin(player, spaces)) {
-            $("p").off("mouseenter");
-            $("p").off("click");
+            player.score++;
             setTimeout(reset, 1000);
 
             switch(player.role) {
@@ -160,7 +159,6 @@ const displayController = (() => {
                 arr[(i + 1) % arr.length] === player.role && 
                 arr[(i + 2) % arr.length] === player.role)
             {
-                player.score++;
                 showWin(i, i + 1, i + 2);
                 setTimeout(() => popUp(player), 750);
                 return true;
@@ -173,7 +171,6 @@ const displayController = (() => {
                 arr[(i + 3) % arr.length] === player.role && 
                 arr[(i + 6) % arr.length] === player.role)
             {
-                player.score++;
                 showWin(i, i + 3, i + 6);
                 setTimeout(() => popUp(player), 750);
                 return true;
@@ -183,7 +180,6 @@ const displayController = (() => {
                 arr[4] === player.role && 
                 arr[8] === player.role)
             {
-                player.score++;
                 showWin(0, 4, 8);
                 setTimeout(() => popUp(player), 750);
                 return true;
@@ -194,7 +190,6 @@ const displayController = (() => {
                 arr[4] === player.role && 
                 arr[6] === player.role)
             {
-                player.score++;
                 showWin(2, 4, 6);
                 setTimeout(() => popUp(player), 750);
                 return true;
@@ -214,6 +209,8 @@ const displayController = (() => {
         }
 
         function showWin(index1, index2, index3) {
+            $("p").off("mouseenter click");
+
             for (let i = 0; i < arguments.length; i++) {
                 const $cell = Array.from($(".gameBoard").children())[arguments[i]];
                 $cell.style.backgroundColor = "black";
@@ -224,27 +221,27 @@ const displayController = (() => {
 
     const popUp = function(player) {
         if (!player) {
+            $(".popup-container").css("display", "flex");
             $("#popup-text").css("display", "block");
             $("#popup-text").html("Tie!");
 
-            $(".popup-container").css("display", "flex");
-
             $(".popup").animate({
                 opacity: "100%"
-            }, "slow");
+            }, 300);
 
             setTimeout(() => {
                 $(".popup").animate({
                     opacity: "0%"
                 }, 300);
-                setTimeout(() => { $(".popup-container").hide() }, 300);
+                setTimeout(() => { 
+                    $(".popup-container").hide() 
+                }, 300);
             }, 1200);
         }
         else if (player === playerOne) {
+            $(".popup-container").css("display", "flex");
             $("#popup-text").css("display", "block");
             $("#popup-text").html(`${player.name} Wins!`);
-
-            $(".popup-container").css("display", "flex");
 
             $(".popup").animate({
                 opacity: "100%"
@@ -254,24 +251,27 @@ const displayController = (() => {
                 $(".popup").animate({
                     opacity: "0%"
                 }, 300);
-                setTimeout(() => { $(".popup-container").hide() }, 300);
+                setTimeout(() => { 
+                    $(".popup-container").hide() 
+                }, 300);
             }, 1200);
         }
         else if (player === playerTwo) {
+            $(".popup-container").css("display", "flex");
             $("#popup-text").css("display", "block");
             $("#popup-text").html(`${player.name} Wins!`);
 
-            $(".popup-container").css("display", "flex");
-
             $(".popup").animate({
                 opacity: "100%"
-            }, "slow");
+            }, 300);
             
             setTimeout(() => {
                 $(".popup").animate({
                     opacity: "0%"
                 }, 300);
-                setTimeout(() => { $(".popup-container").hide() }, 300);
+                setTimeout(() => { 
+                    $(".popup-container").hide() 
+                }, 300);
             }, 1200);
         }
     }
