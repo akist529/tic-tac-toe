@@ -135,6 +135,7 @@ const displayController = (() => {
         });
     })();
 
+    /*
     const compTurn = function() {
         const container = Array.from($(".gameBoard").children());
         const spaceNum = container.indexOf(this);
@@ -150,6 +151,7 @@ const displayController = (() => {
             }
         }
     }
+    */
 
     const checkWin = function(player, arr) {
         // Checks horizontal rows for a win
@@ -212,12 +214,11 @@ const displayController = (() => {
         }
 
         function showWin(index1, index2, index3) {
-            Array.from($(".gameBoard").children()[index1].style.backgroundColor = "black");
-            Array.from($(".gameBoard").children()[index1].style.color = "white");
-            Array.from($(".gameBoard").children()[index2].style.backgroundColor = "black");
-            Array.from($(".gameBoard").children()[index2].style.color = "white");
-            Array.from($(".gameBoard").children()[index3].style.backgroundColor = "black");
-            Array.from($(".gameBoard").children()[index3].style.color = "white");
+            for (let i = 0; i < arguments.length; i++) {
+                const $cell = Array.from($(".gameBoard").children())[arguments[i]];
+                $cell.style.backgroundColor = "black";
+                $cell.style.color = "white";
+            }
         }
     }
 
