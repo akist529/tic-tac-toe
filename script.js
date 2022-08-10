@@ -7,7 +7,9 @@ const GameBoard = (() => {
 
     const render = (function() {
         for (let i = 0; i < spaces.length; i++) {
-            $(".gameBoard").append(`<p>${spaces[i]}</p>`);
+            const cell = $("<p></p>").text(`${spaces[i]}`);
+            cell.addClass("light-border");
+            $(".gameBoard").append(cell);
         }
     })();
 
@@ -93,9 +95,9 @@ const DisplayController = (() => {
         $("#popup-text").html("2-Player Mode or AI?");
 
         $(".popup-container").css("display", "flex");
-        $(".popup-buttons").css("display", "flex");
+        $("button:contains('Start Game')").hide();
 
-        $(".popup").animate({
+        $(".popup-window").animate({
             opacity: "100%"
         }, 300);
     }, 1000);
@@ -222,12 +224,12 @@ const DisplayController = (() => {
             $(".popup-container").css("display", "flex");
             $("#popup-text").show().html("Tie!");
 
-            $(".popup").animate({
+            $(".popup-window").animate({
                 opacity: "100%"
             }, 300);
 
             setTimeout(() => {
-                $(".popup").animate({
+                $(".popup-window").animate({
                     opacity: "0%"
                 }, 300);
                 setTimeout(() => { 
@@ -239,12 +241,12 @@ const DisplayController = (() => {
             $(".popup-container").css("display", "flex");
             $("#popup-text").show().html(`${player.name} Wins!`);
 
-            $(".popup").animate({
+            $(".popup-window").animate({
                 opacity: "100%"
             }, 300);
             
             setTimeout(() => {
-                $(".popup").animate({
+                $(".popup-window").animate({
                     opacity: "0%"
                 }, 300);
                 setTimeout(() => { 
@@ -256,12 +258,12 @@ const DisplayController = (() => {
             $(".popup-container").css("display", "flex");
             $("#popup-text").show().html(`${player.name} Wins!`);
 
-            $(".popup").animate({
+            $(".popup-window").animate({
                 opacity: "100%"
             }, 300);
             
             setTimeout(() => {
-                $(".popup").animate({
+                $(".popup-window").animate({
                     opacity: "0%"
                 }, 300);
                 setTimeout(() => { 
@@ -272,15 +274,15 @@ const DisplayController = (() => {
     }
 
     const playerInputs = function() {
-        $("#popup-text, .popup-buttons").hide();
+        $("#popup-text, .popup-window button").hide();
         $(".popup-inputs").css("display", "flex");
-        $("#playerStart").show();
+        $("button[onClick*='playerMode()']").show();
     }
 
     const compInputs = function() {
-        $("#popup-text, .popup-buttons, .popup-inputs div:nth-child(2)").hide();
+        $("#popup-text, .popup-window button").hide();
         $(".popup-inputs").css("display", "flex");
-        $("#compStart").show();
+        $("button[onClick*='compMode()']").show();
     }
 
     const playerMode = function() {
