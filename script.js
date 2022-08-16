@@ -14,9 +14,11 @@ const GameBoard = (() => {
     })();
 
     const update = function(index) {
-        const $cell = Array.from($(".gameBoard").children())[index];
-        $cell.innerHTML = (playerOne.turn ? "X" : "O");
-        $cell.style.backgroundColor = "white";
+        const cell = Array.from($(".gameBoard").children())[index];
+        console.log(cell);
+
+        cell.textContent = (playerOne.turn ? "X" : "O");
+        cell.style.backgroundColor = "white";
 
         const player = (playerOne.turn ? playerOne: playerTwo);
 
@@ -26,10 +28,10 @@ const GameBoard = (() => {
 
             switch(player.role) {
                 case 'X':
-                    $("#pOneScore").get(0).innerHTML = player.score;
+                    $("#pOneScore").text(Number($("#pOneScore").text()) + 1);
                     break;
                 default:
-                    $("#pTwoScore").get(0).innerHTML = player.score;
+                    $("#pTwoScore").text(Number($("#pTwoScore").text()) + 1);
             }
 
             return;
@@ -37,6 +39,10 @@ const GameBoard = (() => {
 
         playerOne.turn = !playerOne.turn;
         playerTwo.turn = !playerTwo.turn;
+
+        if (playerTwo.turn && playerTwo.isAI) {
+            DisplayController.compTurn();
+        }
     }
 
     const reset = function() {
@@ -134,23 +140,21 @@ const DisplayController = (() => {
         });
     })();
 
-    /*
     const compTurn = function() {
         const container = Array.from($(".gameBoard").children());
-        const spaceNum = container.indexOf(this);
 
         const move = Math.ceil(Math.random() * 8);
 
-        for (let i = 0; i < container.length; i++) {
-            if (GameBoard.spaces[spaceNum] !== "") {
-                continue;
-            } else {
-                GameBoard.spaces[spaceNum] = ("O");
-                GameBoard.update(spaceNum);
+        while (true) {
+            const move = Math.ceil(Math.random() * 8);
+
+            if (GameBoard.spaces[move] === "") {
+                GameBoard.spaces[move] = "O";
+                GameBoard.update(move);
+                break;
             }
         }
     }
-    */
 
     const checkWin = function(player, arr) {
         // Checks horizontal rows for a win
@@ -282,6 +286,7 @@ const DisplayController = (() => {
     const compInputs = function() {
         $("#popup-text, .popup-window button").hide();
         $(".popup-inputs").css("display", "flex");
+        $(".popup-inputs").children().eq(1).hide();
         $("button[onClick*='compMode()']").show();
     }
 
@@ -329,7 +334,8 @@ const DisplayController = (() => {
         playerInputs,
         compInputs,
         playerMode,
-        compMode
+        compMode,
+        compTurn
     }
 })();
 
