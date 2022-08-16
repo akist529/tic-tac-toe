@@ -142,15 +142,34 @@ const DisplayController = (() => {
     const compTurn = function() {
         const container = Array.from($(".gameBoard").children());
 
+        Array.prototype.random = function() {
+            return this[Math.floor(Math.random() * this.length)];
+        }
+
+        let move;
+
         GameBoard.update((function() {
-            if (GameBoard.spaces[4] === "") {
+            function checkBoard(index) {
+                return GameBoard.spaces[index] === "";
+            }
+
+            if (checkBoard(4)) {
                 GameBoard.spaces[4] = "O";
                 return 4;
+            } else if ([0,2,6,8].some(checkBoard)) {
+                while (true) {
+                    move = [0,2,6,8].random();
+
+                    if (checkBoard(move)) {
+                        GameBoard.spaces[move] = "O";
+                        return move;
+                    }
+                }
             } else {
                 while (true) {
-                    let move = Math.ceil(Math.random() * 8);
+                    move = [1,3,5,7].random();
 
-                    if (GameBoard.spaces[move] === "") {
+                    if (checkBoard(move)) {
                         GameBoard.spaces[move] = "O";
                         return move;
                     }
