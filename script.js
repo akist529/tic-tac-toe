@@ -15,7 +15,6 @@ const GameBoard = (() => {
 
     const update = function(index) {
         const cell = Array.from($(".gameBoard").children())[index];
-        console.log(cell);
 
         cell.textContent = (playerOne.turn ? "X" : "O");
         cell.style.backgroundColor = "white";
@@ -143,17 +142,21 @@ const DisplayController = (() => {
     const compTurn = function() {
         const container = Array.from($(".gameBoard").children());
 
-        const move = Math.ceil(Math.random() * 8);
+        GameBoard.update((function() {
+            if (GameBoard.spaces[4] === "") {
+                GameBoard.spaces[4] = "O";
+                return 4;
+            } else {
+                while (true) {
+                    let move = Math.ceil(Math.random() * 8);
 
-        while (true) {
-            const move = Math.ceil(Math.random() * 8);
-
-            if (GameBoard.spaces[move] === "") {
-                GameBoard.spaces[move] = "O";
-                GameBoard.update(move);
-                break;
+                    if (GameBoard.spaces[move] === "") {
+                        GameBoard.spaces[move] = "O";
+                        return move;
+                    }
+                }
             }
-        }
+        })());
     }
 
     const checkWin = function(player, arr) {
