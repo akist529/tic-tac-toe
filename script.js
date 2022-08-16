@@ -99,18 +99,17 @@ const GameBoard = (() => {
 })();
 
 const DisplayController = (() => {
-    const startGame = (function() {
-        setTimeout(() => {
-            $("#popup-text").html("2-Player Mode or AI?");
-    
-            $(".popup-container").css("display", "flex");
-            $("button:contains('Start Game')").hide();
-    
-            $(".popup-window").animate({
-                opacity: "100%"
-            }, 300);
-        }, 1000);
-    })();
+    const startGame = function() {
+        $("#popup-text").show().html("2-Player Mode or AI?");
+        $(".popup-buttons").children().show();
+
+        $(".popup-container").css("display", "flex");
+        $("button:contains('Start Game')").hide();
+
+        $(".popup-window").animate({
+            opacity: "100%"
+        }, 300);
+    };
 
     const playerTurn = (function() {
         const container = Array.from($(".gameBoard").children());
@@ -248,6 +247,7 @@ const DisplayController = (() => {
 
     const popUp = function(player) {
         $(".popup-container").css("display", "flex");
+        $(".popup-buttons").children().hide();
 
         $(".popup-window").animate({
             opacity: "100%"
@@ -277,10 +277,18 @@ const DisplayController = (() => {
         if (event.explicitOriginalTarget.textContent === "AI") {
             $(".popup-inputs").children().eq(1).hide();
             playerTwo.isAI = true;
+        } else {
+            $(".popup-inputs").children().eq(1).show();
+            playerTwo.isAI = false;
         }
     }
 
     const inputNames = function() {
+        GameBoard.reset();
+        playerOne.score = 0;
+        playerTwo.score = 0;
+        $("#pOneScore, #pTwoScore").text("0");
+
         if (!$("#playerOne").val()) {
             $("#pOneName").html("Player 1");
             playerOne.name = "Player 1";
@@ -308,7 +316,8 @@ const DisplayController = (() => {
         checkWin,
         inputMode,
         inputNames,
-        compTurn
+        compTurn,
+        startGame
     }
 })();
 
@@ -323,3 +332,7 @@ var Player = (role, turn, score, isAI) => {
 
 var playerOne = Player('X', true, 0, false);
 var playerTwo = Player('O', false, 0, false);
+
+setTimeout(() => {
+    DisplayController.startGame();
+}, 1000);
