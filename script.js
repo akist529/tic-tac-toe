@@ -272,16 +272,15 @@ const DisplayController = (() => {
     const inputMode = function(event) {
         $("#popup-text, .popup-window button").hide();
         $(".popup-inputs").css("display", "flex");
+        $("button[onClick*='inputNames()']").show();
 
-        if (event.explicitOriginalTarget.textContent === "2-Player") {
-            $("button[onClick*='playerMode()']").show();
-        } else {
+        if (event.explicitOriginalTarget.textContent === "AI") {
             $(".popup-inputs").children().eq(1).hide();
-            $("button[onClick*='compMode()']").show();
+            playerTwo.isAI = true;
         }
     }
 
-    const playerMode = function() {
+    const inputNames = function() {
         if (!$("#playerOne").val()) {
             $("#pOneName").html("Player 1");
             playerOne.name = "Player 1";
@@ -290,7 +289,10 @@ const DisplayController = (() => {
             playerOne.name = $("#playerOne").val();
         }
 
-        if (!$("#playerTwo").val()) {
+        if (playerTwo.isAI) {
+            $("#pTwoName").html("Computer");
+            playerTwo.name = "Computer";
+        } else if (!$("#playerTwo").val()) {
             $("#pTwoName").html("Player 2");
             playerTwo.name = "Player 2";
         } else {
@@ -302,29 +304,10 @@ const DisplayController = (() => {
         $(".popup-inputs, .popup-container").hide();
     }
 
-    const compMode = function() {
-        if (!$("#playerOne").val()) {
-            $("#pOneName").html("Player");
-            playerOne.name = "Player";
-        } else {
-            $("#pOneName").html($("#playerOne").val());
-            playerOne.name = $("#playerOne").val();
-        }
-
-        $("#playerOne").val("");
-
-        $("#pTwoName").html("Computer");
-        playerTwo.name = "Computer";
-        playerTwo.isAI = true;
-
-        $(".popup-inputs, .popup-container").hide()
-    }
-
     return {
         checkWin,
         inputMode,
-        playerMode,
-        compMode,
+        inputNames,
         compTurn
     }
 })();
