@@ -264,23 +264,21 @@ const DisplayController = (() => {
 
         if (!player) {
             $("#popup-text").show().html("Tie!");
-        }
-        else {
+        } else {
             $("#popup-text").show().html(`${player.name} Wins!`);
         }
     }
 
-    const playerInputs = function() {
+    const inputMode = function(event) {
         $("#popup-text, .popup-window button").hide();
         $(".popup-inputs").css("display", "flex");
-        $("button[onClick*='playerMode()']").show();
-    }
 
-    const compInputs = function() {
-        $("#popup-text, .popup-window button").hide();
-        $(".popup-inputs").css("display", "flex");
-        $(".popup-inputs").children().eq(1).hide();
-        $("button[onClick*='compMode()']").show();
+        if (event.explicitOriginalTarget.textContent === "2-Player") {
+            $("button[onClick*='playerMode()']").show();
+        } else {
+            $(".popup-inputs").children().eq(1).hide();
+            $("button[onClick*='compMode()']").show();
+        }
     }
 
     const playerMode = function() {
@@ -324,8 +322,7 @@ const DisplayController = (() => {
 
     return {
         checkWin,
-        playerInputs,
-        compInputs,
+        inputMode,
         playerMode,
         compMode,
         compTurn
