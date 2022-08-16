@@ -247,56 +247,26 @@ const DisplayController = (() => {
     }
 
     const popUp = function(player) {
+        $(".popup-container").css("display", "flex");
+
+        $(".popup-window").animate({
+            opacity: "100%"
+        }, 300);
+
+        setTimeout(() => {
+            $(".popup-window").animate({
+                opacity: "0%"
+            }, 300);
+            setTimeout(() => { 
+                $(".popup-container").hide()
+            }, 300);
+        }, 1200);
+
         if (!player) {
-            $(".popup-container").css("display", "flex");
             $("#popup-text").show().html("Tie!");
-
-            $(".popup-window").animate({
-                opacity: "100%"
-            }, 300);
-
-            setTimeout(() => {
-                $(".popup-window").animate({
-                    opacity: "0%"
-                }, 300);
-                setTimeout(() => { 
-                    $(".popup-container").hide()
-                }, 300);
-            }, 1200);
         }
-        else if (player === playerOne) {
-            $(".popup-container").css("display", "flex");
+        else {
             $("#popup-text").show().html(`${player.name} Wins!`);
-
-            $(".popup-window").animate({
-                opacity: "100%"
-            }, 300);
-            
-            setTimeout(() => {
-                $(".popup-window").animate({
-                    opacity: "0%"
-                }, 300);
-                setTimeout(() => { 
-                    $(".popup-container").hide() 
-                }, 300);
-            }, 1200);
-        }
-        else if (player === playerTwo) {
-            $(".popup-container").css("display", "flex");
-            $("#popup-text").show().html(`${player.name} Wins!`);
-
-            $(".popup-window").animate({
-                opacity: "100%"
-            }, 300);
-            
-            setTimeout(() => {
-                $(".popup-window").animate({
-                    opacity: "0%"
-                }, 300);
-                setTimeout(() => { 
-                    $(".popup-container").hide() 
-                }, 300);
-            }, 1200);
         }
     }
 
