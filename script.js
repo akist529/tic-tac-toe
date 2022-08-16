@@ -45,6 +45,9 @@ const GameBoard = (() => {
     }
 
     const reset = function() {
+        playerOne.turn = true;
+        playerTwo.turn = false;
+
         for (let i = 0; i < 9; i++) {
             spaces[i] = '';
         }
@@ -140,13 +143,11 @@ const DisplayController = (() => {
     })();
 
     const compTurn = function() {
-        const container = Array.from($(".gameBoard").children());
+        let move;
 
         Array.prototype.random = function() {
             return this[Math.floor(Math.random() * this.length)];
         }
-
-        let move;
 
         GameBoard.update((function() {
             function checkBoard(index) {
