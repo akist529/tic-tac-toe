@@ -99,16 +99,18 @@ const GameBoard = (() => {
 })();
 
 const DisplayController = (() => {
-    setTimeout(() => {
-        $("#popup-text").html("2-Player Mode or AI?");
-
-        $(".popup-container").css("display", "flex");
-        $("button:contains('Start Game')").hide();
-
-        $(".popup-window").animate({
-            opacity: "100%"
-        }, 300);
-    }, 1000);
+    const startGame = (function() {
+        setTimeout(() => {
+            $("#popup-text").html("2-Player Mode or AI?");
+    
+            $(".popup-container").css("display", "flex");
+            $("button:contains('Start Game')").hide();
+    
+            $(".popup-window").animate({
+                opacity: "100%"
+            }, 300);
+        }, 1000);
+    })();
 
     const playerTurn = (function() {
         const container = Array.from($(".gameBoard").children());
@@ -143,8 +145,6 @@ const DisplayController = (() => {
     })();
 
     const compTurn = function() {
-        let move;
-
         Array.prototype.random = function() {
             return this[Math.floor(Math.random() * this.length)];
         }
@@ -159,7 +159,7 @@ const DisplayController = (() => {
                 return 4;
             } else if ([0,2,6,8].some(checkBoard)) {
                 while (true) {
-                    move = [0,2,6,8].random();
+                    let move = [0,2,6,8].random();
 
                     if (checkBoard(move)) {
                         GameBoard.spaces[move] = "O";
@@ -168,7 +168,7 @@ const DisplayController = (() => {
                 }
             } else {
                 while (true) {
-                    move = [1,3,5,7].random();
+                    let move = [1,3,5,7].random();
 
                     if (checkBoard(move)) {
                         GameBoard.spaces[move] = "O";
