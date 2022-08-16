@@ -23,7 +23,7 @@ const GameBoard = (() => {
 
         if (DisplayController.checkWin(player, spaces)) {
             player.score++;
-            setTimeout(reset, 1000);
+            setTimeout(resetBoard, 1000);
 
             switch(player.role) {
                 case 'X':
@@ -44,7 +44,7 @@ const GameBoard = (() => {
         }
     }
 
-    const reset = function() {
+    const resetBoard = function() {
         playerOne.turn = true;
         playerTwo.turn = false;
 
@@ -93,7 +93,7 @@ const GameBoard = (() => {
 
     return {
         spaces,
-        reset,
+        resetBoard,
         update
     };
 })();
@@ -284,7 +284,7 @@ const DisplayController = (() => {
     }
 
     const inputNames = function() {
-        GameBoard.reset();
+        GameBoard.resetBoard();
         playerOne.score = 0;
         playerTwo.score = 0;
         $("#pOneScore, #pTwoScore").text("0");
@@ -312,12 +312,24 @@ const DisplayController = (() => {
         $(".popup-inputs, .popup-container").hide();
     }
 
+    const resetGame = function(event) {
+        playerOne.score = 0;
+        playerTwo.score = 0;
+        $("#pOneScore, #pTwoScore").text("0");
+        GameBoard.resetBoard();
+        
+        if (event.explicitOriginalTarget.textContent === "Change Mode") {
+            DisplayController.startGame();
+        } 
+    }
+
     return {
         checkWin,
         inputMode,
         inputNames,
         compTurn,
-        startGame
+        startGame,
+        resetGame
     }
 })();
 
