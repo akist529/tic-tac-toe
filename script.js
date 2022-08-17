@@ -186,7 +186,7 @@ const DisplayController = (() => {
                 arr[(i + 2) % arr.length] === player.role)
             {
                 showWin(i, i + 1, i + 2);
-                setTimeout(() => popUp(player), 750);
+                setTimeout(() => showMessage(player), 750);
                 return true;
             }
         }
@@ -198,7 +198,7 @@ const DisplayController = (() => {
                 arr[(i + 6) % arr.length] === player.role)
             {
                 showWin(i, i + 3, i + 6);
-                setTimeout(() => popUp(player), 750);
+                setTimeout(() => showMessage(player), 750);
                 return true;
             }
             // Checks diagonal left-to-right for a win
@@ -207,7 +207,7 @@ const DisplayController = (() => {
                 arr[8] === player.role)
             {
                 showWin(0, 4, 8);
-                setTimeout(() => popUp(player), 750);
+                setTimeout(() => showMessage(player), 750);
                 return true;
             }
 
@@ -217,7 +217,7 @@ const DisplayController = (() => {
                 arr[6] === player.role)
             {
                 showWin(2, 4, 6);
-                setTimeout(() => popUp(player), 750);
+                setTimeout(() => showMessage(player), 750);
                 return true;
             }
         }
@@ -230,7 +230,7 @@ const DisplayController = (() => {
                 $cell.style.color = "white";
             }
 
-            setTimeout(() => popUp(), 750);
+            setTimeout(() => showMessage(), 750);
             return true;
         }
 
@@ -245,7 +245,7 @@ const DisplayController = (() => {
         }
     }
 
-    const popUp = function(player) {
+    const showMessage = function(player) {
         $(".popup-container").css("display", "flex");
         $(".popup-buttons").children().hide();
 
@@ -270,6 +270,7 @@ const DisplayController = (() => {
     }
 
     const inputMode = function(event) {
+        $(".popup-container").css("display", "flex");
         $("#popup-text, .popup-window button").hide();
         $(".popup-inputs").css("display", "flex");
         $("button[onClick*='inputNames()']").show();
@@ -312,6 +313,19 @@ const DisplayController = (() => {
         $(".popup-inputs, .popup-container").hide();
     }
 
+    const changeName = function() {
+        $(".popup-container").css("display", "flex");
+        $("#popup-text, .popup-window button").hide();
+        $(".popup-inputs").css("display", "flex");
+        $("button[onClick*='inputNames()']").show();
+
+        if (playerTwo.isAI) {
+            $(".popup-inputs").children().eq(1).hide();
+        } else {
+            $(".popup-inputs").children().eq(1).show();
+        }
+    }
+
     const resetGame = function(event) {
         playerOne.score = 0;
         playerTwo.score = 0;
@@ -328,6 +342,7 @@ const DisplayController = (() => {
         inputMode,
         inputNames,
         compTurn,
+        changeName,
         startGame,
         resetGame
     }
