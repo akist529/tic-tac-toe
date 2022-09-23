@@ -1,0 +1,1 @@
+# Allows for the user to pick between two modes: 2-player and AI. Players then take turns marking spaces on the grid until one player is victorious. Score is kept and can be reset at any time, and players have the option of inputting their own names. 
